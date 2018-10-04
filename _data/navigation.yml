@@ -1,13 +1,30 @@
 header:
-  - titles:
-      en:       Archive
-      zh:       归档
-      zh-Hans:  归档
-      zh-Hant:  歸檔
+  - title: Docs
+    url:        /docs/about/summary
+  - title: Archive
     url:        /archive.html
-  - titles:
-      en:       About
-      zh:       关于
-      zh-Hans:  关于
-      zh-Hant:  關於
+  - title: About
     url:        /about.html
+
+docs-about:
+  - title:      정보
+    children:
+      - title:  개요
+        url:    /docs/about/summary
+  - title:      프로그래밍 언어
+    children:
+      - title:  C++
+        url:    /docs/c++/quick-start
+        
+docs-c++:
+  - title:      정보
+    children:
+      - title:  개요
+        url:    /docs/about/summary
+  - title:      C++
+    children:
+      - title:  빠른 시작
+        url:    /docs/c++/quick-start
+  - title:      프로그래밍 언어
+    children:
+      - title:  C++

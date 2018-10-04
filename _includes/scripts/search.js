@@ -13,38 +13,91 @@ window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
   }
 
   function initData(data) {
-    var _data = [], i, j, key, keys, cur;
-    keys = Object.keys(data);
-    for (i = 0; i < keys.length; i++) {
-      key = keys[i], _data[key] = [];
-      for (j = 0; j < data[key].length; j++) {
-        cur = data[key][j];
-        cur.title = window.decodeUrl(cur.title);
-        cur.url = window.decodeUrl(cur.url);
-        _data[key].push(cur);
-      }
+    var _data = [], i, cur;
+    for (i = 0; i < data.length; i++) {
+      cur = data[i];
+      cur.title = window.decodeUrl(cur.title);
+      cur.category = window.decodeUrl(cur.category);
+      cur.content = window.decodeUrl(cur.content);
+      cur.url = window.decodeUrl(cur.url);
+      _data.push(cur);
     }
     return _data;
+    // var _data = [], i, j, key, keys, cur;
+    // keys = Object.keys(data);
+    // for (i = 0; i < keys.length; i++) {
+    //   key = keys[i], _data[key] = [];
+    //   for (j = 0; j < data[key].length; j++) {
+    //     cur = data[key][j];
+    //     cur.title = window.decodeUrl(cur.title);
+    //     cur.url = window.decodeUrl(cur.url);
+    //     _data[key].push(cur);
+    //   }
+    // }
+    // return _data;
   }
+
+  var idx;
+
+  require(['/assets/lunr.js', '/assets/lunr.stemmer.support.js', '/assets/lunr.multi.js', '/assets/lunr.ko.js'], function(lunr, streamSupport, multi, ko) {
+    streamSupport(lunr);
+    multi(lunr);
+    ko(lunr);
+
+    idx = lunr(function () {
+      this.use(lunr.multiLanguage('en', 'ko'));
+      this.ref('id');
+      this.field('url');
+      this.field('title', { boost: 10 });
+      this.field('author');
+      this.field('category');
+      this.field('content');
+  
+      searchData.forEach(function (doc) {
+        this.add(doc)
+      }, this)
+    })
+  });
 
   /// search
   function searchByQuery(query) {
-    var i, j, key, keys, cur, _title, result = {};
-    keys = Object.keys(searchData);
-    for (i = 0; i < keys.length; i++) {
-      key = keys[i];
-      for (j = 0; j < searchData[key].length; j++) {
-        cur = searchData[key][j], _title = cur.title;
-        if ((result[key] === undefined || result[key] && result[key].length < 4 )
-          && _title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
-          if (result[key] === undefined) {
-            result[key] = [];
-          }
-          result[key].push(cur);
-        }
-      }
+    if (!idx) {
+      return null;
     }
-    return result;
+
+    var result = idx.search(query);
+
+    console.log(result);
+
+    const data = {};
+
+    result.forEach(function (dataRef) {
+      var item = searchData[dataRef.ref];
+      if (!data[item.category]) {
+        data[item.category] = [item];
+      } else {
+        data[item.category].push(item);
+      }
+    })
+
+    return data;
+
+    // var i, j, key, keys, cur, _title, result = {};
+    // keys = Object.keys(searchData);
+    // for (i = 0; i < keys.length; i++) {
+    //   key = keys[i];
+    //   for (j = 0; j < searchData[key].length; j++) {
+    //     cur = searchData[key][j], _title = cur.title;
+    //     if ((result[key] === undefined || result[key] && result[key].length < 4 )
+    //       && _title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+    //       if (result[key] === undefined) {
+    //         result[key] = [];
+    //       }
+    //       result[key].push(cur);
+    //     }
+    //   }
+    // }
+    // return result;
   }
 
   var renderHeader = memorize(function(header) {

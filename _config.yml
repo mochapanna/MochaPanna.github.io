@@ -170,6 +170,10 @@ exclude:
   - /test
   - /vendor
 
+collections:
+  docs:
+    output: true
+
 defaults:
   - scope:
       path: ""
@@ -177,6 +181,7 @@ defaults:
     values:
       layout: article
       license: true
+      category: post
       mode: immersive
       header:
         theme: dark
@@ -189,6 +194,30 @@ defaults:
           src: assets/main_images.jpg
       show_edit_on_github: true
       pageview: true
+  - scope:
+      path: "_docs/about"
+    values:
+      layout: article
+      sidebar:
+        nav: docs-about
+      license: true
+      category: docs-about
+      aside:
+        toc: true
+      show_edit_on_github: true
+      show_date: false
+  - scope:
+      path: "_docs/c++"
+    values:
+      layout: article
+      sidebar:
+        nav: docs-c++
+      license: true
+      category: docs-c++
+      aside:
+        toc: true
+      show_edit_on_github: true
+      show_date: false
 
 
 ## => Plugins
