@@ -83,7 +83,7 @@
     lunr.Pipeline.registerFunction(lunr.ko.stemmer, 'stemmer-ko');
 
     /* lunr trimmer function */
-    lunr.ko.wordCharacters = "가-힣";
+    lunr.ko.wordCharacters = "가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9";
     lunr.ko.trimmer = lunr.trimmerSupport.generateTrimmer(lunr.ko.wordCharacters);
     lunr.Pipeline.registerFunction(lunr.ko.trimmer, 'trimmer-ko');
 

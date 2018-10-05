@@ -18,7 +18,7 @@ window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
       cur = data[i];
       cur.title = window.decodeUrl(cur.title);
       cur.category = window.decodeUrl(cur.category);
-      cur.content = window.decodeUrl(cur.content);
+      cur.content = window.decodeUrl(cur.content).replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, " ");
       cur.url = window.decodeUrl(cur.url);
       _data.push(cur);
     }
@@ -39,13 +39,12 @@ window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
 
   var idx;
 
-  require(['/assets/lunr.js', '/assets/lunr.stemmer.support.js', '/assets/lunr.multi.js', '/assets/lunr.ko.js'], function(lunr, streamSupport, multi, ko) {
+  require(['/assets/lunr.js', '/assets/lunr.stemmer.support.js', '/assets/lunr.ko.js'], function(lunr, streamSupport, ko) {
     streamSupport(lunr);
-    multi(lunr);
     ko(lunr);
 
     idx = lunr(function () {
-      this.use(lunr.multiLanguage('en', 'ko'));
+      this.use(lunr.ko);
       this.ref('id');
       this.field('url');
       this.field('title', { boost: 10 });
@@ -66,8 +65,6 @@ window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
     }
 
     var result = idx.search(query);
-
-    console.log(result);
 
     const data = {};
 
