@@ -5,10 +5,10 @@
     <ul class="toc toc--navigator">
       {%- for _item in _sidebar_nav -%}
         <li class="toc-h1">{{ _item.title }}</li>
-        {%- if _item.children -%}
-          <ul class="toc toc--navigator">
-          {%- for _child in _item.children -%}
 
+        
+        {%- if _item.children -%}
+          {%- for _child in _item.children -%}
             {%- include snippets/get-nav-url.html path=_child.url -%}
             {%- assign _nav_url = __return -%}
             {%- include snippets/get-nav-url.html path=page.url -%}
@@ -25,40 +25,58 @@
               {%- endif -%}
                 {{ _child.title }}
               </a>
+            </li>
 
-              {%- if _child.children -%}
-                <ul class="toc toc--navigator">
-                {%- for _child in _child.children -%}
-
-                  {%- include snippets/get-nav-url.html path=_child.url -%}
-                  {%- assign _nav_url = __return -%}
-                  {%- include snippets/get-nav-url.html path=page.url -%}
-                  {%- assign _page_url = __return -%}
-                  {%- if _nav_url == _page_url -%}
-                    <li class="toc-h3 active">
+            {%- if _child.children -%}
+              {%- for _child in _child.children -%}
+                {%- include snippets/get-nav-url.html path=_child.url -%}
+                {%- assign _nav_url = __return -%}
+                {%- include snippets/get-nav-url.html path=page.url -%}
+                {%- assign _page_url = __return -%}
+                {%- if _nav_url == _page_url -%}
+                  <li class="toc-h3 active">
+                {%- else -%}
+                  <li class="toc-h3">
+                {%- endif -%}
+                  {%- if _child.url -%}
+                    <a href="{{ _nav_url }}">
                   {%- else -%}
-                    <li class="toc-h3">
+                    <a>
                   {%- endif -%}
-                    {%- if _child.url -%}
-                      <a href="{{ _nav_url }}">
+                    {{ _child.title }}
+                  </a>
+                </li>
+                
+                {%- if _child.children -%}
+                  {%- for _child in _child.children -%}
+                    {%- include snippets/get-nav-url.html path=_child.url -%}
+                    {%- assign _nav_url = __return -%}
+                    {%- include snippets/get-nav-url.html path=page.url -%}
+                    {%- assign _page_url = __return -%}
+                    {%- if _nav_url == _page_url -%}
+                      <li class="toc-h4 active">
                     {%- else -%}
-                      <a>
+                      <li class="toc-h4">
                     {%- endif -%}
-                      {{ _child.title }}
-                    </a>
-                    
-                    {%- if _child.children -%}
-                      <ul class="toc toc--navigator">
-                      {%- for _child in _child.children -%}
+                      {%- if _child.url -%}
+                        <a href="{{ _nav_url }}">
+                      {%- else -%}
+                        <a>
+                      {%- endif -%}
+                        {{ _child.title }}
+                      </a>
+                    </li>
 
+                    {%- if _child.children -%}
+                      {%- for _child in _child.children -%}
                         {%- include snippets/get-nav-url.html path=_child.url -%}
                         {%- assign _nav_url = __return -%}
                         {%- include snippets/get-nav-url.html path=page.url -%}
                         {%- assign _page_url = __return -%}
                         {%- if _nav_url == _page_url -%}
-                          <li class="toc-h4 active">
+                          <li class="toc-h5 active">
                         {%- else -%}
-                          <li class="toc-h4">
+                          <li class="toc-h5">
                         {%- endif -%}
                           {%- if _child.url -%}
                             <a href="{{ _nav_url }}">
@@ -67,72 +85,44 @@
                           {%- endif -%}
                             {{ _child.title }}
                           </a>
-
-                            {%- if _child.children -%}
-                              <ul class="toc toc--navigator">
-                              {%- for _child in _child.children -%}
-
-                                {%- include snippets/get-nav-url.html path=_child.url -%}
-                                {%- assign _nav_url = __return -%}
-                                {%- include snippets/get-nav-url.html path=page.url -%}
-                                {%- assign _page_url = __return -%}
-                                {%- if _nav_url == _page_url -%}
-                                  <li class="toc-h5 active">
-                                {%- else -%}
-                                  <li class="toc-h5">
-                                {%- endif -%}
-                                  {%- if _child.url -%}
-                                    <a href="{{ _nav_url }}">
-                                  {%- else -%}
-                                    <a>
-                                  {%- endif -%}
-                                    {{ _child.title }}
-                                  </a>
-
-                                    {%- if _child.children -%}
-                                      <ul class="toc toc--navigator">
-                                      {%- for _child in _child.children -%}
-
-                                        {%- include snippets/get-nav-url.html path=_child.url -%}
-                                        {%- assign _nav_url = __return -%}
-                                        {%- include snippets/get-nav-url.html path=page.url -%}
-                                        {%- assign _page_url = __return -%}
-                                        {%- if _nav_url == _page_url -%}
-                                          <li class="toc-h6 active">
-                                        {%- else -%}
-                                          <li class="toc-h6">
-                                        {%- endif -%}
-                                          {%- if _child.url -%}
-                                            <a href="{{ _nav_url }}">
-                                          {%- else -%}
-                                            <a>
-                                          {%- endif -%}
-                                            {{ _child.title }}
-                                          </a>
-                                        </li>
-                                      {%- endfor -%}
-                                      </ul>
-                                    {%- endif -%}
-
-                                </li>
-                              {%- endfor -%}
-                              </ul>
-                            {%- endif -%}
-
                         </li>
+
+                        {%- if _child.children -%}
+                          {%- for _child in _child.children -%}
+                            {%- include snippets/get-nav-url.html path=_child.url -%}
+                            {%- assign _nav_url = __return -%}
+                            {%- include snippets/get-nav-url.html path=page.url -%}
+                            {%- assign _page_url = __return -%}
+                            {%- if _nav_url == _page_url -%}
+                              <li class="toc-h6 active">
+                            {%- else -%}
+                              <li class="toc-h6">
+                            {%- endif -%}
+                              {%- if _child.url -%}
+                                <a href="{{ _nav_url }}">
+                              {%- else -%}
+                                <a>
+                              {%- endif -%}
+                                {{ _child.title }}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        {%- endif -%}
+
                       {%- endfor -%}
-                      </ul>
                     {%- endif -%}
 
-                  </li>
-                {%- endfor -%}
-                </ul>
-              {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
 
-            </li>
+              {%- endfor -%}
+            {%- endif -%}
+
+
           {%- endfor -%}
-          </ul>
         {%- endif -%}
+
+
       {%- endfor -%}
       </ul>
     {%- endif -%}
