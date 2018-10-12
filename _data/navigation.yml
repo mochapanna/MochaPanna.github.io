@@ -29,10 +29,10 @@ docs-c++:
             children:
               - title: 소개
                 children:
-                  - title: 컴파일러
-                    url:   /docs/c++/튜토리얼/소개/컴파일
                   - title: 설치
                     url:   /docs/c++/튜토리얼/소개/설치
+                  - title: 컴파일러
+                    url:   /docs/c++/튜토리얼/소개/컴파일
               - title: 기본 C++
                 children:
                   - title: 프로그램 구조
